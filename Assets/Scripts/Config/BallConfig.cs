@@ -16,5 +16,11 @@
 
 		[SerializeField]
 		public float Size = 1f;
+
+		[SerializeField]
+		public float MinY = -2f;
+
+		[SerializeField]
+		public float MaxY = 4f;
 	}
 }

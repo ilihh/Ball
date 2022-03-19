@@ -84,9 +84,22 @@
 			ball.isKinematic = pause;
 		}
 
+		/// <summary>
+		/// Position.y to height in range -1 (floor) .. 1 (ceiling)
+		/// </summary>
+		/// <param name="y">Y axis.</param>
+		/// <returns>Height.</returns>
+		float RelativeHeight(float y)
+		{
+			var range = config.MaxY - config.MinY;
+			var rate01 = (y - config.MinY) / range; // 0..1
+			return (rate01 * 2f) - 1f;
+		}
+
 		public override void FixedUpdate(float deltaTime)
 		{
-			var r = new Vector3(0f, 0f, ball.rotation.eulerAngles.z + angularVelocity * deltaTime);
+			var rate = -RelativeHeight(ball.position.y); 
+			var r = new Vector3(0f, 0f, ball.rotation.eulerAngles.z + angularVelocity * deltaTime * rate);
 			if (r.z > 360f)
 			{
 				r.z -= 360f;

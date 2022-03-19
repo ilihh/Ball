@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 	using UnityEngine;
 
-	public class GameplaySystem : BaseSystem
+	public class GameplaySystem
 	{
 		GameplayConfig config;
 		
@@ -17,6 +17,11 @@
 		List<BaseSystem> activeSystems = new List<BaseSystem>();
 
 		bool gravityDown = true;
+
+		public bool Pause
+		{
+			get => state == GameplayState.Pause;
+		}
 
 		public Action<int> OnScoreChanged;
 
@@ -69,7 +74,7 @@
 			activeSystems.Add(wallsSystem);
 		}
 
-		public override void Destroy()
+		public void Destroy()
 		{
 			ballSystem.OnDeath -= ProcessGameOver;
 
@@ -79,9 +84,12 @@
 			}
 		}
 
-		public override void Start()
+		public void Start()
 		{
-			base.Start();
+			if (State != GameplayState.Start)
+			{
+				return;
+			}
 
 			Score = 0;
 
@@ -106,9 +114,13 @@
 			State = GameplayState.GameOver;
 		}
 
-		public override void SetPause(bool pause)
+		public void SetPause(bool pause)
 		{
-			base.SetPause(pause);
+			var can_pause = (state == GameplayState.Pause) || (state == GameplayState.Playing);
+			if (!can_pause)
+			{
+				return;
+			}
 
 			foreach (var s in activeSystems)
 			{
@@ -118,7 +130,7 @@
 			State = pause ? GameplayState.Pause : GameplayState.Playing;
 		}
 
-		public override void Update(float deltaTime)
+		public void Update(float deltaTime)
 		{
 			if (State != GameplayState.Playing)
 			{
@@ -131,7 +143,7 @@
 			}
 		}
 
-		public override void FixedUpdate(float deltaTime)
+		public void FixedUpdate(float deltaTime)
 		{
 			if (State != GameplayState.Playing)
 			{
@@ -155,7 +167,7 @@
 			Physics.gravity = gravityDown ? config.GravityDown : config.GravityUp;
 		}
 
-		public override void Reset()
+		public void Reset()
 		{
 			foreach (var s in activeSystems)
 			{
