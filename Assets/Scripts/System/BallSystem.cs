@@ -93,7 +93,7 @@
 		{
 			var range = config.MaxY - config.MinY;
 			var rate01 = (y - config.MinY) / range; // 0..1
-			return (rate01 * 2f) - 1f;
+			return Mathf.Clamp((rate01 * 2f) - 1f, -1f, 1f);
 		}
 
 		public override void FixedUpdate(float deltaTime)
