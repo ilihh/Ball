@@ -1,7 +1,6 @@
 ﻿namespace BallGame
 {
 	using System;
-	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
 
@@ -35,7 +34,6 @@
 				}
 			}
 		}
-
 
 		public Action<GameplayState> OnStateChanged;
 
@@ -122,7 +120,7 @@
 
 		public override void Update(float deltaTime)
 		{
-			if (Pause)
+			if (State != GameplayState.Playing)
 			{
 				return;
 			}
@@ -135,7 +133,7 @@
 
 		public override void FixedUpdate(float deltaTime)
 		{
-			if (Pause)
+			if (State != GameplayState.Playing)
 			{
 				return;
 			}
@@ -148,7 +146,7 @@
 
 		public void ToggleGravity()
 		{
-			if (Pause)
+			if (State != GameplayState.Playing)
 			{
 				return;
 			}

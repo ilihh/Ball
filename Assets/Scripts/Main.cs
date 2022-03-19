@@ -1,9 +1,7 @@
 namespace BallGame
 {
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
 	using UnityEngine;
+	using UnityEngine.EventSystems;
 
 	public class Main : MonoBehaviour
 	{
@@ -49,6 +47,11 @@ namespace BallGame
 
 		public void ToggleGravity()
 		{
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
+
 			GameplaySystem.ToggleGravity();
 		}
 

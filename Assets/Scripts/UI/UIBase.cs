@@ -1,11 +1,7 @@
 ﻿namespace BallGame
 {
-	using System;
-	using System.Collections;
-	using System.Collections.Generic;
 	using UnityEngine;
 	using UnityEngine.UI;
-	using TMPro;
 
 	abstract public class UIBase : MonoBehaviour
 	{

@@ -1,5 +1,5 @@
 {
-    "name": "Input",
+    "name": "GameplayInput",
     "maps": [
         {
             "name": "Map",
@@ -20,28 +20,9 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Menu",
-                    "type": "Button",
-                    "id": "85db7416-53aa-4292-a321-931c9db18eee",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "f0ffa02d-74ef-4289-9023-301286ec30a1",
-                    "path": "<Touchscreen>/press",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "ToggleGravity",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "",
                     "id": "52b68ea4-f073-4f88-bf41-fb79bc88da23",
@@ -55,23 +36,23 @@
                 },
                 {
                     "name": "",
-                    "id": "b063ad41-9b3f-4a8c-a9f2-b515e7c5e8d8",
-                    "path": "",
+                    "id": "ca0621df-79d4-4b80-b38c-a99f37522751",
+                    "path": "<Pointer>/press",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "ToggleGravity",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "65a70621-f4cc-47ed-9a10-90e6ade23eab",
+                    "id": "b063ad41-9b3f-4a8c-a9f2-b515e7c5e8d8",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Menu",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
