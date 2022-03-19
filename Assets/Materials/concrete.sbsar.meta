@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 6fd4301871f520743a524a37dceff538
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: dda12f74ff9116a42b23482252b2c482, type: 3}
+  _instancesCopy:
+  - {fileID: 11400000, guid: a4492e22f54342740a6e2ed2cf8f5213, type: 2}
+  _assetPath: Assets/Materials/concrete.sbsar
