@@ -85,10 +85,10 @@ MonoBehaviour:
         Index: 3
         Type: 8
         Channel: metallic
-      OutputTexture: {fileID: 2800000, guid: 1a9c5f2a75132864baa8d91c58175023, type: 3}
+      OutputTexture: {fileID: 0}
       sRGB: 0
       IsVirtual: 0
-      IsStandardOutput: 1
+      IsStandardOutput: 0
       IsAlphaAssignable: 1
       AlphaChannel: roughness
       InvertAssignedAlpha: 1
@@ -103,10 +103,10 @@ MonoBehaviour:
         Index: 4
         Type: 8
         Channel: height
-      OutputTexture: {fileID: 2800000, guid: 0a92991edc99d6145a1551b9ae0f8dfe, type: 3}
+      OutputTexture: {fileID: 0}
       sRGB: 0
       IsVirtual: 0
-      IsStandardOutput: 1
+      IsStandardOutput: 0
       IsAlphaAssignable: 1
       AlphaChannel: 
       InvertAssignedAlpha: 0
@@ -121,10 +121,10 @@ MonoBehaviour:
         Index: 5
         Type: 8
         Channel: ambientOcclusion
-      OutputTexture: {fileID: 2800000, guid: 118cca763ae42964f8863fc3cba488e0, type: 3}
+      OutputTexture: {fileID: 0}
       sRGB: 0
       IsVirtual: 0
-      IsStandardOutput: 1
+      IsStandardOutput: 0
       IsAlphaAssignable: 1
       AlphaChannel: 
       InvertAssignedAlpha: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
     Thumbnail: 
     HasThumbnail: 0
     OutputMaterial: {fileID: 2100000, guid: 8edc72d49574888458b3beb603c229b4, type: 2}
-    MaterialShader: Standard
+    MaterialShader: Mobile/Bumped Diffuse
     GenerateAllOutputs: 0
     GenerateAllMipmaps: 0
     DefaultPreset: " <sbspreset pkgurl=\"pkg://Substance_graph\" label=\"\" >\n 
