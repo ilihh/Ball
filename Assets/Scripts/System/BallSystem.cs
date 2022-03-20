@@ -5,6 +5,36 @@
 
 	public class BallSystem : BaseSystem
 	{
+		struct AnimatorNames
+		{
+			public readonly int Ceiling;
+
+			public readonly int Air;
+
+			public readonly int Floor;
+
+			public readonly int SpeedRate;
+
+			AnimatorNames(int ceiling, int air, int floor, int speedRate)
+			{
+				Ceiling = ceiling;
+				Air = air;
+				Floor = floor;
+
+				SpeedRate = speedRate;
+			}
+
+			public static AnimatorNames Create()
+			{
+				return new AnimatorNames(
+					Animator.StringToHash("Ceiling"),
+					Animator.StringToHash("Air"),
+					Animator.StringToHash("Floor"),
+					Animator.StringToHash("SpeedRate")
+				);
+			}
+		}
+
 		public Action OnDeath;
 
 		public Action OnScore;
@@ -15,26 +45,69 @@
 
 		GameObject floor;
 
-		Rigidbody ball;
+		Rigidbody rigidbody;
 
-		BallCollision ballCollision;
+		BallCollision collision;
 
-		float angularVelocity;
+		Animator animator;
+
+		AnimatorNames animatorNames;
+
+		int triggerId;
+
+		protected int TriggerId
+		{
+			get => triggerId;
+
+			set
+			{
+				if (triggerId != value)
+				{
+					animator.ResetTrigger(triggerId);
+					animator.SetTrigger(value);
+
+					triggerId = value;
+				}
+			}
+		}
 
 		public BallSystem(BallConfig config, float speed)
 		{
+			animatorNames = AnimatorNames.Create();
+
 			this.config = config;
 
-			ball = UnityEngine.Object.Instantiate(config.Ball);
-			ballCollision = ball.GetComponent<BallCollision>();
-			ballCollision.OnDeath += ProcessDeath;
-			ballCollision.OnScore += ProcessScore;
+			rigidbody = UnityEngine.Object.Instantiate(config.Ball);
+			collision = rigidbody.GetComponent<BallCollision>();
+			collision.OnDeath += ProcessDeath;
+			collision.OnScore += ProcessScore;
+			collision.OnStateChanged += ProcessState;
+			animator = rigidbody.GetComponent<Animator>();
 
 			ceiling = UnityEngine.Object.Instantiate(config.CeilingCollider);
 			floor = UnityEngine.Object.Instantiate(config.FloorCollider);
 
+			triggerId = animatorNames.Floor;
+			animator.SetTrigger(triggerId);
+
 			SetSpeed(speed);
 			SetPause(true);
+		}
+
+		void ProcessState(BallState state)
+		{
+			switch (state)
+			{
+				case BallState.Ceiling:
+					TriggerId = animatorNames.Ceiling;
+					break;
+				case BallState.Air:
+					TriggerId = animatorNames.Air;
+					break;
+				case BallState.Floor:
+					TriggerId = animatorNames.Floor;
+					break;
+			}
 		}
 
 		void ProcessDeath()
@@ -49,15 +122,15 @@
 
 		public override void Destroy()
 		{
-			if (ballCollision != null)
+			if (collision != null)
 			{
-				ballCollision.OnDeath -= ProcessDeath;
-				ballCollision.OnScore -= ProcessScore;
+				collision.OnDeath -= ProcessDeath;
+				collision.OnScore -= ProcessScore;
 			}
 
-			if (ball != null)
+			if (rigidbody != null)
 			{
-				UnityEngine.Object.Destroy(ball.gameObject);
+				UnityEngine.Object.Destroy(rigidbody.gameObject);
 			}
 
 			if (ceiling != null)
@@ -73,49 +146,24 @@
 
 		public void SetSpeed(float speed)
 		{
-			var circumference = config.Size * ball.transform.localScale.x * Mathf.PI;
+			var circumference = config.Size * rigidbody.transform.localScale.x * Mathf.PI;
 			var rotation_time = circumference / speed;
-			angularVelocity = 360f / rotation_time;
+
+			animator.SetFloat(animatorNames.SpeedRate, 1f / rotation_time);
 		}
 
 		public override void SetPause(bool pause)
 		{
 			base.SetPause(pause);
-			ball.isKinematic = pause;
-		}
-
-		/// <summary>
-		/// Position.y to height in range -1 (floor) .. 1 (ceiling)
-		/// </summary>
-		/// <param name="y">Y axis.</param>
-		/// <returns>Height.</returns>
-		float RelativeHeight(float y)
-		{
-			var range = config.MaxY - config.MinY;
-			var rate01 = (y - config.MinY) / range; // 0..1
-			return Mathf.Clamp((rate01 * 2f) - 1f, -1f, 1f);
-		}
-
-		public override void FixedUpdate(float deltaTime)
-		{
-			var rate = -RelativeHeight(ball.position.y); 
-			var r = new Vector3(0f, 0f, ball.rotation.eulerAngles.z + angularVelocity * deltaTime * rate);
-			if (r.z > 360f)
-			{
-				r.z -= 360f;
-			}
-			if (r.z <= -360f)
-			{
-				r.z += 360f;
-			}
-
-			ball.MoveRotation(Quaternion.Euler(r));
+			rigidbody.isKinematic = pause;
+			animator.enabled = !pause;
 		}
 		
 		public override void Reset()
 		{
-			ball.MovePosition(config.Ball.transform.position);
-			ball.MoveRotation(config.Ball.transform.rotation);
+			rigidbody.MovePosition(config.Ball.transform.position);
+			rigidbody.MoveRotation(config.Ball.transform.rotation);
+			ProcessState(BallState.Floor);
 		}
 	}
 }

@@ -14,7 +14,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Pause",
+                    "name": "TogglePause",
                     "type": "Button",
                     "id": "07953c25-a84e-4592-b88b-f2754c3787c6",
                     "expectedControlType": "Button",
@@ -52,7 +52,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "TogglePause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

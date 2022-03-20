@@ -40,14 +40,14 @@ namespace BallGame
 				return;
 			}
 
-			if (EventSystem.current.IsPointerOverGameObject())
-			{
-				return;
-			}
-
 			switch (context.action.name)
 			{
 				case "ToggleGravity":
+					if (EventSystem.current.IsPointerOverGameObject())
+					{
+						return;
+					}
+
 					GameplaySystem.ToggleGravity();
 					break;
 				case "TogglePause":

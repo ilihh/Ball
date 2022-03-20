@@ -163,7 +163,12 @@
 				return;
 			}
 
-			gravityDown = !gravityDown;
+			SetGravity(!gravityDown);
+		}
+
+		void SetGravity(bool down)
+		{
+			gravityDown = down;
 			Physics.gravity = gravityDown ? config.GravityDown : config.GravityUp;
 		}
 
@@ -175,6 +180,7 @@
 			}
 
 			State = GameplayState.Start;
+			SetGravity(true);
 		}
 	}
 }
