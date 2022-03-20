@@ -2,6 +2,7 @@ namespace BallGame
 {
 	using UnityEngine;
 	using UnityEngine.EventSystems;
+	using UnityEngine.InputSystem;
 
 	public class Main : MonoBehaviour
 	{
@@ -17,6 +18,8 @@ namespace BallGame
 			private set;
 		}
 
+		PlayerInput playerInput;
+
 		protected void Start()
 		{
 			GameplaySystem = new GameplaySystem(gameplayConfig);
@@ -24,6 +27,32 @@ namespace BallGame
 			foreach (var x in screens)
 			{
 				x.Init(GameplaySystem);
+			}
+
+			playerInput = GetComponent<PlayerInput>();
+			playerInput.onActionTriggered += ProcessInputAction;
+		}
+
+		void ProcessInputAction(InputAction.CallbackContext context)
+		{
+			if (!context.performed)
+			{
+				return;
+			}
+
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return;
+			}
+
+			switch (context.action.name)
+			{
+				case "ToggleGravity":
+					GameplaySystem.ToggleGravity();
+					break;
+				case "TogglePause":
+					GameplaySystem.SetPause(!GameplaySystem.Pause);
+					break;
 			}
 		}
 
@@ -43,21 +72,6 @@ namespace BallGame
 		protected void FixedUpdate()
 		{
 			GameplaySystem.FixedUpdate(Time.deltaTime);
-		}
-
-		public void ToggleGravity()
-		{
-			if (EventSystem.current.IsPointerOverGameObject())
-			{
-				return;
-			}
-
-			GameplaySystem.ToggleGravity();
-		}
-
-		public void TogglePause()
-		{
-			GameplaySystem.SetPause(!GameplaySystem.Pause);
 		}
 	}
 }
