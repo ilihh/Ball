@@ -71,6 +71,8 @@
 			}
 		}
 
+		BallState state;
+
 		public BallSystem(BallConfig config, float speed)
 		{
 			animatorNames = AnimatorNames.Create();
@@ -94,9 +96,15 @@
 			SetPause(true);
 		}
 
-		void ProcessState(BallState state)
+		void ProcessState(BallState newState)
 		{
-			switch (state)
+			if (newState == state)
+			{
+				return;
+			}
+
+			state = newState;
+			switch (newState)
 			{
 				case BallState.Ceiling:
 					TriggerId = animatorNames.Ceiling;

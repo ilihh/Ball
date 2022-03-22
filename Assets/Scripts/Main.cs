@@ -22,6 +22,8 @@ namespace BallGame
 
 		protected void Start()
 		{
+			UnityEngine.InputSystem.EnhancedTouch.EnhancedTouchSupport.Enable();
+
 			GameplaySystem = new GameplaySystem(gameplayConfig);
 
 			foreach (var x in screens)
@@ -33,6 +35,28 @@ namespace BallGame
 			playerInput.onActionTriggered += ProcessInputAction;
 		}
 
+		bool IsPointerOverGameObject()
+		{
+			if (EventSystem.current.IsPointerOverGameObject())
+			{
+				return true;
+			}
+
+			var n = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches.Count;
+			for (int i = 0; i < n; i++)
+			{
+				var touch = UnityEngine.InputSystem.EnhancedTouch.Touch.activeTouches[i];
+				if (touch.phase == UnityEngine.InputSystem.TouchPhase.Began)
+				{
+					if (EventSystem.current.IsPointerOverGameObject(touch.touchId))
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
 		void ProcessInputAction(InputAction.CallbackContext context)
 		{
 			if (!context.performed)
@@ -43,7 +67,7 @@ namespace BallGame
 			switch (context.action.name)
 			{
 				case "ToggleGravity":
-					if (EventSystem.current.IsPointerOverGameObject())
+					if (IsPointerOverGameObject())
 					{
 						return;
 					}

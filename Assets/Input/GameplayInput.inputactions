@@ -37,7 +37,18 @@
                 {
                     "name": "",
                     "id": "ca0621df-79d4-4b80-b38c-a99f37522751",
-                    "path": "<Pointer>/press",
+                    "path": "<Touchscreen>/press",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleGravity",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2632ce0b-fbee-4051-9578-7e30403430b9",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
